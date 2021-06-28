@@ -1,0 +1,33 @@
+import pandas as pd 
+#my_sheet = 'Project tasks' # change it to your sheet name, you can find your sheet name at the bottom left of your excel file
+#file_name = 'arquivo.xlsx' # change it to the name of your excel file
+df = pd.read_excel('arquivo.xlsx')
+metadata = df.iloc[0:6,0:2].copy() #selecionou as linhas e colunas
+metadata = metadata.T
+df.drop([0,1,2,3,4,5,6], inplace = True, axis = 0) #numero das linhas , #inplace vai permanecer apagada - APAGAR
+df.columns= df.iloc[0,:] #parametro separado por , ---- eu posso por : p ele correr tudo  - SELECIONAR "ilock é o index"
+df.drop([7], inplace= True)
+df.index= range(0, len(df),1) # n esquecer de por o tamanho do len 
+#df= df[~df['Assigned to'].isna()] # ~  troca o sinal da op !=
+df['Tarefinha'] = '0'
+df['Tarefona']= '0'
+for i in range(0, len(df)-1, 1): 
+    if len(df.iloc[i, 1].split(".")) < len(df.iloc[i+1, 1].split(".")) :
+        df.iloc[i,17]= df.iloc[i, 1]
+    else: 
+        df.iloc[i,16]= df.iloc[i, 1]                               
+                                              
+if len(df.iloc[len(df)-1, 1].split(".")) < len(df.iloc[len(df)-2, 1].split(".")) :
+        df.iloc[len(df)-1,17]= df.iloc[len(df)-1, 1]
+else: 
+        df.iloc[len(df)-1,16]= df.iloc[len(df)-1, 1]    
+ #len(df.iloc[1, 1].split("."))
+ #df.iloc[1, 1]. split(".")
+ #df.reset_index(drop=True, inplace= True) #
+print(df.columns)
+df.columns.name= '' # para mudar o nome do index que estava 7 - deixei vazio 
+df.iloc[2, 1]
+df.to_csv('C:\\Users\\lcosta51\\Documents\\ARQUIVO python\\arquivo2.csv', index= False)
+metadata.to_csv('C:\\Users\\lcosta51\\Documents\\ARQUIVO python\\arquivo3.csv', index= False) 
+
+                # colocar o caminho + o nome e nao esquecer das 2 barras 
